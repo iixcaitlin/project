@@ -38,8 +38,8 @@
 			<% for (var i = 0; i < data.length; i++){ %>
 				<div class = "card">
 					<div class = "card-body">
-						<h4 class="card-title"><%= data[i].date.toLocaleString() %></h4>
-						<p class="card-text"><%= data[i].text %></p>
+						<a href="/journal/<%= data[i].id %>" ><h4 class="card-title"><%= data[i].title %></h4></a>
+						<p class="card-text"><%- data[i].text %></p>
 					</div> <!--(card-body)-->
 				</div> <!--(card)-->
 			<% } %>

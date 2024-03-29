@@ -11,6 +11,9 @@ const session = require("express-session")
 const MongoStore = require("connect-mongo")
 const cors = require("cors")
 const passport = require("./config/passportConfig.js").passport
+const {marked} = require("marked");
+const createDOMPurify = require("dompurify")
+const { JSDOM } = require("jsdom")
 
 const User = require("./models/db.js").User
 const Entry = require("./models/db.js").Entry
@@ -90,8 +93,9 @@ app.get("/cookie", (req, res) => {
 app.get("/home", isAuth,  async (req,res)=>{
 	console.log("Session:", req.session)
 	var allJournalEntry = await Entry.find({})
-
-	
+	for (let i=0; i < allJournalEntry.length; i++ ){
+		allJournalEntry[i].text = marked.parse(allJournalEntry[i].text)
+	}
 	res.render("mainPage", {
 		data: allJournalEntry
 	})
@@ -122,15 +126,22 @@ app.get("/", async (req,res)=>{
 
 // creating new journal
 app.get("/createJournal",isAuth, (req,res)=>{
-
 	res.render("createJournalPage")
 })
 
 app.post("/submitJournal", async (req, res) =>{
 	console.log("Submit:",req.body.entry)
-	
+	var title = (!req.body.title)? new Date().toDateString() : req.body.title
+
+	// read about this later (sanitize)
+	const window = new JSDOM("").window
+	const DOMPurify = createDOMPurify(window)
+	const clean = DOMPurify.sanitize(req.body.entry)
+
+	console.log("clean:", clean)
 	const new_entry = new Entry ({
-		text: req.body.entry
+		title: title,
+		text: clean
 	});
 	console.log("sending to DB:", new_entry)
 	await new_entry.save()
@@ -188,6 +199,18 @@ app.get("/logout", async(req, res) => {
 	
 })
 
+app.get("/journal/:id", (req, res) => {
+	var id = req.params.id
+	Entry.findById(id)
+		.then((docs) => {
+			console.log(docs)
+			res.render("viewEntry", {entry: docs})
+		})
+		.catch((err) => {
+			console.log(err)
+			res.redirect("/")
+		})
+})
 
 
 //start the server

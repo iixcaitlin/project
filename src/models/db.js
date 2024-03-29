@@ -4,6 +4,7 @@ mongoose = require("mongoose")
 //--------Mongo Schema & Model ----------
 const entrySchema = new mongoose.Schema({
 	date:{ type: Date, default: Date.now()},
+	title: String,
 	text: String
 })
 
