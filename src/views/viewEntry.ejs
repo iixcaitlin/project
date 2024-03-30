@@ -7,26 +7,28 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>My Website</title>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="../viewEntry.css">
+		<link rel="stylesheet" href="../style.css">
 	</head>
 
-	<a href="/">
-		<button type="button" id="mainBtn" class="btn btn-outline-secondary btn-sm">Main Page</button>
-	</a>
+	<header>
+		<a href="/">
+			<button type="button" id="mainBtn" class="navBtn btn btn-outline-secondary btn-sm">Main Page</button>
+		</a>
+		<a href="/home">
+			<button type="button" id="homeBtn" class="navBtn btn btn-outline-secondary btn-sm">Home Page</button>
+		</a>
+	</header>
 	
-	<body class ="container">
-		<div class="row">
-			<div class="col">
-				<h1><%= entry.title %></h1>
-			</div>
-			<div class="col">
+	<body>
+		<div class ="journal container">
+			<div class="header row">
+				<h3><%= entry.title %></h3>
 				<h6><%= entry.date.toDateString() %></h6>
 			</div>
-		</div>
-		<div class="row">
-			<p><%= entry.text %></p>
-		</div>
+			<div class="entry row">
+				<p><%= entry.text %></p>
+			</div>
+		</div> <!-- journal -->>
 	</body>
-
-
 </html>
