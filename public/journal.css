@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    justify-content: space-between;
+}
+
+.title {
+    width: 80%
+}
+
+.journal{
+	padding: 5%;
+    padding-top: 10%
+}
+
+.submit-button{
+	padding-left: 5%;
+}
