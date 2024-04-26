@@ -18,17 +18,18 @@
 	</header>
 	
 	<body>
-		<div class ="journal">
-			<div class="header">
-				<div class="title">
-					<h3><%= entry.title %></h3>
-					<a href="/edit/<%= entry.id %>"><i class="fa-regular fa-pen-to-square"></i></a>
-				</div>
+		<div class ="journal container">
+			<div class="header row">
+				<h3 contenteditable="true" id="title"><%= entry.title %></h3>
 				<h6><%= entry.date.toDateString() %></h6>
 			</div>
-			<div class="entry">
-				<p><%= entry.text %></p>
+			<div class="entry row">
+				<p contenteditable="true" id="text"><%= entry.text %></p>
 			</div>
-		</div> <!-- journal -->>
+			<button type="button" id="saveBtn" class="navBtn btn btn-outline-secondary btn-sm" onclick="saveEntry('<%= entry.id %>')">Save</button>
+			<a href="/journal/<%= entry.id %>"><button type="button" id="cancelBtn" class="navBtn btn btn-outline-secondary btn-sm">Cancel</button></a>
+		</div> <!-- journal -->
+
+		<script src="../js/editEntry.js"></script>
 	</body>
 </html>

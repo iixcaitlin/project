@@ -19,11 +19,6 @@ const User = require("./models/db.js").User
 const Entry = require("./models/db.js").Entry
 const Login = require("./models/db.js").Login
 
-console.log("user:", User)
-console.log("entry:", Entry)
-console.log("login:", Login)
-
-
 //------ middleware -------
 app.set("view engine", "ejs")
 app.use(express.static("../public"))
@@ -208,8 +203,32 @@ app.get("/journal/:id", (req, res) => {
 		})
 		.catch((err) => {
 			console.log(err)
-			res.redirect("/")
+			res.redirect("/home")
 		})
+})
+
+app.get("/edit/:id", (req, res) => {
+	var id = req.params.id
+	Entry.findById(id)
+		.then((docs) => {
+			console.log(docs)
+			res.render("editEntry", {entry: docs})
+		})
+		.catch((err) => {
+			console.log(err)
+			res.redirect("/home")
+		})
+})
+
+app.put("/edit/:id", (req, res) => {
+	var id = req.params.id
+	Entry.findById(id)
+	.then(async (docs) => {
+		docs.title = req.body.title
+		docs.text = req.body.text
+		await docs.save()
+		console.log(docs)
+	})
 })
 
 
