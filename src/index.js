@@ -3,7 +3,7 @@ require("dotenv").config({path: require("find-config")(".env")})
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
-const myHash = require("./util.js").myHash
+const myHash = require("./util.js")
 // const cookieParser = require("cookie-parser")
 const mySecret = process.env.mongoPassword
 const sessionSecret = process.env.session_secret
@@ -86,8 +86,7 @@ app.get("/cookie", (req, res) => {
 })
 
 app.get("/home", isAuth,  async (req,res)=>{
-	console.log("Session:", req.session)
-	var allJournalEntry = await Entry.find({})
+	var allJournalEntry = await Entry.find({username: req.user.username})
 	for (let i=0; i < allJournalEntry.length; i++ ){
 		allJournalEntry[i].text = marked.parse(allJournalEntry[i].text)
 	}
@@ -115,9 +114,7 @@ app.get("/", async (req,res)=>{
 	res.render("landing", {session_data: JSON.stringify(req.session)})
 })
 
-
 //personal middlewares
-
 
 // creating new journal
 app.get("/createJournal",isAuth, (req,res)=>{
@@ -135,8 +132,9 @@ app.post("/submitJournal", async (req, res) =>{
 
 	console.log("clean:", clean)
 	const new_entry = new Entry ({
+		username: req.user.username,
 		title: title,
-		text: clean
+		text: clean,
 	});
 	console.log("sending to DB:", new_entry)
 	await new_entry.save()
@@ -150,10 +148,9 @@ app.get("/signup", (req, res) => {
 })
 
 app.post("/createUser", async (req, res) => {
-
 	// hashing the password
 	let password, salt
-	[ password, salt ]= myHash(req.body.password, salting = true)
+	[ password, salt ] = myHash(req.body.password, salting = true)
 	console.log("new password:", password,salt)
 	
 	const new_user = new User ({
@@ -228,9 +225,9 @@ app.put("/edit/:id", (req, res) => {
 		docs.text = req.body.text
 		await docs.save()
 		console.log(docs)
+		res.redirect(`/journal/${id}`)
 	})
 })
-
 
 //start the server
 app.listen(8080, () => {
