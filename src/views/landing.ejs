@@ -6,7 +6,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="../login.css">
+	<link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../music.css">
 	<link rel="stylesheet" href="../style.css">
 </head>
 
@@ -20,24 +21,31 @@
 <body>
 	<div id="player">
 		<div id="details">
-			<div id="songName">song name</div>
-			<div id="songArtist">song artist</div>	
+			<div><h5 id="songName">song name</h5></div>
+			<div><h6 id="songArtist">song artist</h6></div>	
 		</div>
 		<div id="buttons">
 			<div id="prev">
-				<button onclick="prevSong()">prev</button>
+				<button class="musicBtn" onclick="prevSong()">
+					<i class="fa-solid fa-backward-step"></i>
+				</button>
 			</div>
 			<div id="play">
-				<button onclick="playMusic()">play</button>
+				<button class="musicBtn" id="playpause" onclick="playpause()">
+					<i class="fa-solid fa-play"></i>
+				</button>
 			</div>
 			<div id="next">
-				<button onclick="nextSong()">next</button>
+				<button class="musicBtn" onclick="nextSong()">
+					<i class="fa-solid fa-forward-step"></i>
+				</button>
 			</div>
 		</div>
-
-		<audio controls id="musicPlayer">
-			<source src="" type="audio/mpeg">
-		</audio>
+		<div id="info">		
+			<div id="duration">00:00</div>
+			<input type="range" id="slider" value="0" min="1" max="100" onchange="seek()">
+			<div id="totalDuration">00:00</div>
+		</div>
 	</div>
 
 	<h1> Landing Page </h1>
