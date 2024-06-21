@@ -24,7 +24,8 @@
 				<h6><%= entry.date.toDateString() %></h6>
 			</div>
 			<div class="entry row">
-				<p contenteditable="true" id="text"><%= entry.text %></p>
+				<div class="entryText" id="highlights"><%= entry.text %></div>
+				<textarea class="entryText" id="text"><%= entry.text %></textarea>
 			</div>
 			<button type="button" id="saveBtn" class="navBtn btn btn-outline-secondary btn-sm" onclick="saveEntry('<%= entry.id %>')">Save</button>
 			<a href="/journal/<%= entry.id %>"><button type="button" id="cancelBtn" class="navBtn btn btn-outline-secondary btn-sm">Cancel</button></a>
