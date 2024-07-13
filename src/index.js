@@ -20,11 +20,27 @@ const OpenAI = require("openai")
 const openai = new OpenAI({apiKey: apiKey});
 // console.log(openai)
 async function main(text){
-	var prompt = "Act as if you are a therapist provided with your patient's journal entry. Analyze the entry, highlight/ quote certain parts, prompt the patient to expand upon those parts, and help them talk through their feelings. Make this feel like a conversation between a therapist and their patient. Do not remind the user that you are not a true substitute for therapy. Act like a therapist with a background in psychology that is speaking to their patient."
+	var prompt = `
+	Act as if you are a therapist provided with your patient's journal entry. Analyze the entry, highlight/ quote certain parts, prompt 
+	the patient to expand upon those parts, and help them talk through their feelings. Only use direct quotes from the journal. Don't 
+	break up the quotes or paraphrase the journal. Quotes should be consecutive words in the patient's journal. Do not remind the patient 
+	that you are not a true substitute for therapy. Act like a therapist with a background in psychology that is speaking to their patient. 
+	If not enough information is provided, output an empty JSON object. Do not make assumptions about the patient, try to guide them so 
+	that they can better understand their feelings. Output the highlighted sections and your response to them in the following JSON format:
+	
+	Output the highlighted sections and your response to them in the following JSON format:
+
+
+	{ 
+	highlighted section 1: response 1
+	highlighted section 2: response 2,
+	etc.
+	}`
+	 
 	prompt = prompt + text
 	const chatCompletion = await openai.chat.completions.create({
 		messages: [{role: "user", content: prompt}],
-		model: "gpt-3.5-turbo",
+		model: "gpt-4-turbo",
 		max_tokens: 1000
 	})
 	return chatCompletion.choices[0].message.content
@@ -66,7 +82,6 @@ app.use(session({
 		dbName: 'project'
 	})
 }))
-
 
 
 
@@ -215,7 +230,7 @@ app.post("/journal/:id", async (req, res) => {
 	var response = ''
 	// console.log(req.body.data)
 	response = await main(req.body.data)
-	// console.log(response)
+	console.log(response)
 	res.send(response)
 })
 
@@ -224,7 +239,7 @@ app.get("/edit/:id", (req, res) => {
 	Entry.findById(id)
 		.then((docs) => {
 			console.log(docs)
-			res.render("editEntry", {entry: docs})
+			res.render("editEntry", {entry: docs, id: id})
 		})
 		.catch((err) => {
 			console.log(err)
