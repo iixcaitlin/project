@@ -21,15 +21,9 @@ const openai = new OpenAI({apiKey: apiKey});
 // console.log(openai)
 async function main(text){
 	var prompt = `
-	Act as if you are a therapist provided with your patient's journal entry. Analyze the entry, highlight/ quote certain parts, prompt 
-	the patient to expand upon those parts, and help them talk through their feelings. Only use direct quotes from the journal. Don't 
-	break up the quotes or paraphrase the journal. Quotes should be consecutive words in the patient's journal. Do not remind the patient 
-	that you are not a true substitute for therapy. Act like a therapist with a background in psychology that is speaking to their patient. 
-	If not enough information is provided, output an empty JSON object. Do not make assumptions about the patient, try to guide them so 
-	that they can better understand their feelings. Output the highlighted sections and your response to them in the following JSON format:
-	
-	Output the highlighted sections and your response to them in the following JSON format:
-
+	Below is a journal entry I wrote today as a part of my daily journaling routine. I want you to act as a therapist reviewing 
+	my journal and help me identify which parts of what I write I can provide more clarity on. Output the highlighted sections 
+	and your response to them in the following JSON format:
 
 	{ 
 	highlighted section 1: response 1
