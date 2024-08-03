@@ -9,6 +9,7 @@
 		<title>My Website</title>
 		<link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="../viewEntry.css">
+		<link rel="stylesheet" href="../entryOverlay.css">
 		<link rel="stylesheet" href="../style.css">
 	</head>
 
@@ -17,7 +18,8 @@
 		<a href="/home"><button type="button" id="homeBtn" class="navBtn btn btn-outline-secondary btn-sm">Home Page</button></a>
 	</header>
 	
-	<body>
+	<body onload="hover( '<%= id %>')">
+		<%- include("music") %>
 		<div id="container">
 			<div class ="journal container">
 				<button onclick="check('<%= id %>')"> send data </button>
@@ -38,6 +40,6 @@
 		</div>
 
 		<script src="../js/editEntry.js"></script>
-		<script src="/js/checkEntry.js"></script>
+		<script src="../js/checkEntry.js"></script>
 	</body>
 </html>

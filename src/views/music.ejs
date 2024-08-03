@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../music.css">
+</head>
+
+<div id="player">
+    <div id="details">
+        <div><p id="songName">song name</p></div>
+        <div><p id="songArtist">song artist</p></div>	
+    </div>
+    <div id="info">		
+        <div id="duration" class="duration">00:00</div>
+            <input type="range" id="slider" value="0" min="1" max="100" onchange="seek()">
+        <div id="totalDuration" class="duration">00:00</div>
+    </div>
+    <div id="buttons">
+        <div id="prev">
+            <button class="musicBtn" onclick="prevSong()">
+                <i class="fa-solid fa-backward-step"></i>
+            </button>
+        </div>
+        <div id="play">
+            <button class="musicBtn" id="playpause" onclick="playpause()">
+                <i class="fa-solid fa-play"></i>
+            </button>
+        </div>
+        <div id="next">
+            <button class="musicBtn" onclick="nextSong()">
+                <i class="fa-solid fa-forward-step"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</html>

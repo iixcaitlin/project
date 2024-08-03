@@ -1,14 +1,31 @@
 <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../entryOverlay.css">
+</head>
+
+<button onclick="check('<%= id %>')"> send data </button>
+
 <form action="/submitJournal" method="post">
 	<div class="journal container-md">
 		<label for="entry" class="header form-label">
 			<input class="title form-control" name="title" placeholder="title">
 			<script> document.write(new Date().toDateString()); </script>
 		</label>
-		<textarea class="form-control" name="entry" id="entry" rows="6" placeholder="type here"></textarea>
+		<div class="container">
+			<div class="entry row">
+				<div class="entryText" id="highlights"></div>
+				<textarea class="entryText" id="text"></textarea>
+			</div>
+		</div>
+
 	</div>
 	
 	<div class="submit-button">
 		<button type="submit" class="btn btn-outline-secondary btn-sm">submit</button>
 	</div> 
 </form>
+</html>

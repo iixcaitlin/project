@@ -23,7 +23,7 @@ async function main(text){
 	var prompt = `
 	Below is a journal entry I wrote today as a part of my daily journaling routine. I want you to act as a therapist reviewing 
 	my journal and help me identify which parts of what I write I can provide more clarity on. Output the highlighted sections 
-	and your response to them in the following JSON format:
+	and your response to them in the following JSON format (if not enough information is provided, output an empty JSON object):
 
 	{ 
 	highlighted section 1: response 1
@@ -221,9 +221,8 @@ app.get("/journal/:id", (req, res) => {
 })
 
 app.post("/journal/:id", async (req, res) => {
-	var response = ''
 	// console.log(req.body.data)
-	response = await main(req.body.data)
+	var response = await main(req.body.data)
 	console.log(response)
 	res.send(response)
 })
