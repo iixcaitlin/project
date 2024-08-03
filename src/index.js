@@ -26,10 +26,9 @@ async function main(text){
 	and your response to them in the following JSON format (if not enough information is provided, output an empty JSON object):
 
 	{ 
-	highlighted section 1: response 1
-	highlighted section 2: response 2,
-	etc.
-	}`
+	what I wrote: response 1
+	}
+	`
 	 
 	prompt = prompt + text
 	const chatCompletion = await openai.chat.completions.create({
