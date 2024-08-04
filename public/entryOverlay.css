@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+
+.entry {
+    padding: 3%;
+    position: relative;
+}
+
+.entryText {
+    height: 400px;
+    width: 75%;
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0.25px;
+    border-radius: 0;
+    padding: 5px;
+}
+
+#highlights {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+    box-sizing: border-box;
+    color: transparent;
+}
+
+#text {
+    /*had to make this so it would be same size as div*/
+    width: 70.5%;
+    border-style: none;
+    border-color: transparent;
+    resize: none;
+    background-color: transparent;
+    display: block;
+    position: absolute;
+    z-index: 2;
+}
