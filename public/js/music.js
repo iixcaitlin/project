@@ -101,3 +101,24 @@ function load(index){
 }
 
 load(index)
+
+
+
+
+function toggle() {
+    let toggle = document.getElementById("toggle")
+    let show;
+    if (toggle.innerHTML === '<i class="fa-solid fa-angle-up"></i>') {
+        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
+        show = false;
+    } else {
+        toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
+        show = true;
+    }
+
+    if (show === true) {
+        toggle.style.top = "0%";
+    } else {
+        toggle.style.top = "80%";
+    }
+}

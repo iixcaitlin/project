@@ -5,7 +5,7 @@ const app = express()
 const mongoose = require("mongoose")
 const myHash = require("./util.js")
 // const cookieParser = require("cookie-parser")
-const mySecret = process.env.mongoPassword
+// const mySecret = process.env.mongoPassword
 const sessionSecret = process.env.session_secret
 const session = require("express-session")
 const MongoStore = require("connect-mongo")
@@ -22,8 +22,9 @@ const openai = new OpenAI({apiKey: apiKey});
 async function main(text){
 	var prompt = `
 	Below is a journal entry I wrote today as a part of my daily journaling routine. I want you to act as a therapist reviewing 
-	my journal and help me identify which parts of what I write I can provide more clarity on. Output the highlighted sections 
-	and your response to them in the following JSON format (if not enough information is provided, output an empty JSON object):
+	my journal and help me identify which parts of what I write I can provide more clarity on. Highlighted sections should be 
+	direct quotes from my journal, they should not be paraphrased or shortened. Output the highlighted sections and your response 
+	to them in the following JSON format. (if not enough information is provided, output an empty JSON object):
 
 	{ 
 	what I wrote: response 1
@@ -134,6 +135,13 @@ app.get("/", async (req,res)=>{
 // creating new journal
 app.get("/createJournal",isAuth, (req,res)=>{
 	res.render("createJournalPage")
+})
+
+app.post("/createJournal", async (req, res) => {
+	console.log("sending data...", req.body.data)
+	var response = await main(req.body.data)
+	console.log(response)
+	res.send(response)
 })
 
 app.post("/submitJournal", async (req, res) =>{

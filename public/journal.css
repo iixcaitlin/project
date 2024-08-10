@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 .header {
     display: flex;
     flex-direction: row;
@@ -10,6 +14,12 @@
     width: 80%
 }
 
+#journalContain {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
 .journal{
 	padding: 5%;
     padding-top: 10%
@@ -17,4 +27,64 @@
 
 .submit-button{
 	padding-left: 5%;
+}
+
+#responses {
+  max-width: 25%;
+  min-width: 25%;
+  min-height: 45em;
+  max-height: 45em;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+
+
+
+.entryText {
+  height: 400px;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.25px;
+  border-radius: 0;
+  padding: 5px;
+}
+
+#highlights {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+  box-sizing: border-box;
+  color: transparent;
+}
+
+#text {
+  /*had to make this so it would be same size as div*/
+  width: 70.5%;
+  border-style: none;
+  border-color: transparent;
+  resize: none;
+  background-color: transparent;
+  display: block;
+  position: absolute;
+  z-index: 2;
+}
+
+
+.highlighted {
+  /* color: transparent; */
+  padding: 0;
+  border-radius: 3;
+  background-color: #f5ece1;
+}
+
+.response {
+  background-color: #f5ece1;
+  padding: 1em;
+  border-radius: 10px; 
+  transition: opacity 1s;
 }

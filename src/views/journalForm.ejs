@@ -7,25 +7,36 @@
 	<link rel="stylesheet" href="../entryOverlay.css">
 </head>
 
-<button onclick="check('<%= id %>')"> send data </button>
+<body>
 
-<form action="/submitJournal" method="post">
-	<div class="journal container-md">
-		<label for="entry" class="header form-label">
-			<input class="title form-control" name="title" placeholder="title">
-			<script> document.write(new Date().toDateString()); </script>
-		</label>
-		<div class="container">
-			<div class="entry row">
-				<div class="entryText" id="highlights"></div>
-				<textarea class="entryText" id="text"></textarea>
+<button onclick="check()"> send data </button>
+
+<div id="journalContain">
+	<form action="/submitJournal" method="post">
+		<div class="journal container-md">
+			<label for="entry" class="header form-label">
+				<input class="title form-control" name="title" placeholder="title">
+				<script> document.write(new Date().toDateString()); </script>
+			</label>
+			<div class="container">
+				<div class="entry row">
+					<div class="entryText" id="highlights"></div>
+					<textarea class="entryText" id="text"></textarea>
+				</div>
 			</div>
 		</div>
+		
+		<div class="submit-button">
+			<button type="submit" class="btn btn-outline-secondary btn-sm">submit</button>
+		</div> 
+	</form>
 
-	</div>
-	
-	<div class="submit-button">
-		<button type="submit" class="btn btn-outline-secondary btn-sm">submit</button>
-	</div> 
-</form>
+	<div id="responses"></div>
+</div>
+
+
+<script src="../js/checkCreate.js"></script>
+<script src="../js/editCreate.js"></script>
+
+</body>
 </html>

@@ -1,13 +1,9 @@
-//this file should be imported before checkEntry.js
-//global variables ( accessible by all functions )
-// const are for objects that shouldn't be refined
-const saveBtn = document.getElementById("saveBtn") 
 const textArea = document.getElementById("text")
 const highlightArea = document.getElementById("highlights")
 const responseArea = document.getElementById("responses")
 var highlights = [] // this list should contain all the highlight spantags
 
-//textArea event settings
+
 textArea.addEventListener("scroll",matchScrolling)
 textArea.addEventListener("input", reApplyHighlights)
 textArea.addEventListener("mousemove", (mouse) => {
@@ -18,46 +14,24 @@ textArea.addEventListener("mousemove", (mouse) => {
         clientY: mouse.clientY
     })
 
-    /* dispatch this event to all highlights ( 
-       the list of span tags should be global, 
-       when the list is empty the forloop doesnt run ) 
-    */
     for (let i = 0; i < highlights.length; i++) {
         highlights[i].dispatchEvent(hover)
     }
     
 })
 
-// saving updates to entry
-function saveEntry(id){
-    var title = document.getElementById("title").innerText
-    var text = textArea.value    
-
-    //add err catch and load animation / feed back would be nice
-    fetch(`/edit/${id}`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            title: title,
-            text: text,
-        })
-    })
-}
-
-//this function will be called when we scroll the textArea
 function matchScrolling(){
     highlightArea.scrollTop = text.scrollTop
 }
 
-// updating the overlays when changes are made ( keypress)
 function reApplyHighlights(event){
     try {
         let data = null;
     
-        if (localStorage.getItem(localStorage.getItem("id"))) {
-            data = JSON.parse((localStorage.getItem(localStorage.getItem("id"))))
+        if (sessionStorage.getItem("notes")) {
+            data = JSON.parse((sessionStorage.getItem("notes")))
         }else{
-            console.log("no data found in localstorage")
+            console.log("no data found in sessionStorage")
             return
         }
 
@@ -77,7 +51,7 @@ function reApplyHighlights(event){
 
 }
 
-// function to apply highlights to the entry based on data
+
 function applyHighlights(text, data){
     var num = 1
     for (key in data){
