@@ -5,6 +5,7 @@ var duration = document.getElementById("duration")
 var totalDuration = document.getElementById("totalDuration")
 var playBtn = document.getElementById("playpause")
 let player = document.createElement("audio")
+localStorage.setItem("playerShow", "false")
 
 let update;
 let playing = false;
@@ -107,18 +108,30 @@ load(index)
 
 function toggle() {
     let toggle = document.getElementById("toggle")
-    let show;
-    if (toggle.innerHTML === '<i class="fa-solid fa-angle-up"></i>') {
+    let player = document.getElementById("player")
+    if (localStorage.getItem("playerShow") === "true"){
+        localStorage.setItem("playerShow", "false")
+    } else {
+        localStorage.setItem("playerShow", "true")
+    }
+    let playerShow = localStorage.getItem("playerShow")
+    if (playerShow === "false"){
         toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
-        show = false;
+        player.style.top = "80%"
     } else {
         toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
-        show = true;
-    }
-
-    if (show === true) {
-        toggle.style.top = "0%";
-    } else {
-        toggle.style.top = "80%";
+        player.style.top = "0%"
     }
 }
+
+function playerStart() {
+    let playerShow = localStorage.getItem("playerShow")
+    if (playerShow === "false"){
+        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
+        player.style.top = "80%"
+    } else {
+        toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
+        player.style.top = "0%"
+    }
+}
+playerStart()

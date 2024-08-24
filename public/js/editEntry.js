@@ -25,7 +25,7 @@ textArea.addEventListener("mousemove", (mouse) => {
     for (let i = 0; i < highlights.length; i++) {
         highlights[i].dispatchEvent(hover)
     }
-    
+
 })
 
 // saving updates to entry
@@ -53,7 +53,7 @@ function matchScrolling(){
 function reApplyHighlights(event){
     try {
         let data = null;
-    
+
         if (localStorage.getItem(localStorage.getItem("id"))) {
             data = JSON.parse((localStorage.getItem(localStorage.getItem("id"))))
         }else{
@@ -67,10 +67,10 @@ function reApplyHighlights(event){
             //aftering applying highlights, we have to reset hover events for all the span tag elements
             resetSpanHover()
         }
-        
+
         //match scrolling just in case new text causes scrolling
         matchScrolling()
-        
+
     } catch (err) {
         console.log("An error occur when reapplying highlights:", err)
     }
@@ -84,7 +84,7 @@ function applyHighlights(text, data){
         text = text.replace(`/\n$/g`, '\n\n').replace(key, `<span class="highlighted" id='a${num}'>$&</span>`)
         num ++
     }
-    return text
+    return text+" " //magic space!
 }
 
 
@@ -99,8 +99,8 @@ function withinBounds(rectobj, x, y){
 function resetSpanHover(){
     console.log("reapplying hover event to new spantags ")
     highlights = document.getElementsByClassName("highlighted") //replacing the global list
-    
-    
+
+
     for (let i = 0; i < highlights.length; i++) {
         highlights[i].addEventListener("mouseover", (mouse) => {
             let range = document.createRange()

@@ -28,6 +28,7 @@
     "jsdom": "^24.0.0",
     "marked": "^12.0.1",
     "mongoose": "^8.1.2",
+    "node-nlp": "^4.27.0",
     "openai": "^4.47.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"

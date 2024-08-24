@@ -43,15 +43,20 @@ async function check(id){
         return response.text()
     })
     .then((data) => {
+        data = JSON.parse(data)
+        console.log(data)
 
-        console.log("returned data from gpt:", data)
+        console.log("returned data from gpt:", data.GPTresponse)
+        console.log("returned sentiment analysis:", data.sentiment)
 
         document.getElementsByClassName("loader")[0].remove(); // remove loading
 
-        data = dataParse(data) //ensure we only get the dictionary part of chatgpt reply
-        localStorage.setItem(id, data)
+        document.getElementById("sentiment").innerText = JSON.stringify(data.sentiment)
+
+        GPTdata = dataParse(data.GPTresponse) //ensure we only get the dictionary part of chatgpt reply
+        localStorage.setItem(id, GPTdata)
         localStorage.setItem("id", id)
-        let responseData = JSON.parse(data)
+        let responseData = JSON.parse(GPTdata)
         if (Object.keys(responseData).length == 0 ) { //if empty json
 
             //replace with flash message later 

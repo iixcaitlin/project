@@ -1,16 +1,21 @@
-#musicContainer {
+* {
+    box-sizing: border-box;
+}
+
+#musicContain {
     position: fixed;
     bottom: 0;
     left: 0;
     margin: 2em;
     width: 25em;
     height: 15em;
-    border: solid;
+    /* border: solid; */
     z-index: 2;
 }
 
 #player {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     width: 25em;
@@ -18,10 +23,10 @@
     border: solid grey 0.5px;
     border-radius: 20px;
     background-color: rgb(255, 255, 255, 0.75);
-    position: fixed;
     bottom: 0;
     left: 0;
-    margin: 2em;
+    transition: top 1s;
+    top: 80%;
 }
 
 #icons {
