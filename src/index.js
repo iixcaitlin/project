@@ -14,6 +14,17 @@ const passport = require("./config/passportConfig.js").passport
 const {marked} = require("marked");
 const createDOMPurify = require("dompurify")
 const { JSDOM } = require("jsdom")
+const emotionData = require("./emotionData.js").data
+
+const { NlpManager } = require('node-nlp');
+const manager = new NlpManager({ languages: ['en'] });
+
+async function loadEmotions() {
+	await manager.load("model.nlp")
+}
+loadEmotions()
+
+
 const apiKey = process.env.openAI_key
 
 const OpenAI = require("openai")
@@ -38,6 +49,20 @@ async function main(text){
 		max_tokens: 1000
 	})
 	return chatCompletion.choices[0].message.content
+}
+
+const {SentimentAnalyzer} = require("node-nlp");
+const sentiment = new SentimentAnalyzer({language: "en"})
+
+async function getSentiment(text) {
+	// console.log("getSentiment running...")
+	// var sentimentAnalysis = ""
+	// await sentiment.getSentiment(text)
+	// 	.then(result => {
+	// 		sentimentAnalysis = result
+	// 	})
+	const response = await manager.process("en", text)
+	return response
 }
 
 const User = require("./models/db.js").User
@@ -113,9 +138,7 @@ app.get("/home", isAuth,  async (req,res)=>{
 })
 
 app.get("/", async (req,res)=>{
-	// look upp the session ID from the req req.sessionID
-
-	
+	// look upp the session ID from the req req.sessionID	
 	if (req.session.views){
 		req.session.views += 1
 	} else {
@@ -127,6 +150,27 @@ app.get("/", async (req,res)=>{
 	const id = req.sessionID
 	// use the Id to look up the session data from mongo collection
 	// then increment the view count if it exist set to 1 if not
+
+	// const emotions = emotionData.split(/\r\n|\n/)
+	// for (let i = 0; i < emotions.length; i++){
+	// 	let curAnalysis = emotions[i].split(",")
+	// 	let curEmotion = curAnalysis[1]
+	// 	if (curEmotion === 0){
+	// 		curEmotion = "emotion.sad"
+	// 	} else if (curEmotion === 1) {
+	// 		curEmotion = "emotion.happy"
+	// 	} else if (curEmotion === 2) {
+	// 		curEmotion = "emotion.love"
+	// 	} else if (curEmotion === 3) {
+	// 		curEmotion = "emotion.angry"
+	// 	} else {
+	// 		curEmotion = "emotion.fear"
+	// 	}
+	// 	manager.addDocument("en", curAnalysis[0], curEmotion)
+	// }
+	// await manager.train()
+	// manager.save()
+
 	res.render("landing", {session_data: JSON.stringify(req.session)})
 })
 
@@ -231,7 +275,13 @@ app.post("/journal/:id", async (req, res) => {
 	// console.log(req.body.data)
 	var response = await main(req.body.data)
 	console.log(response)
-	res.send(response)
+	var sentiment = await getSentiment(req.body.data)
+	console.log("sentiment results:", sentiment)
+	entryData = [response, sentiment]
+	res.send({
+		GPTresponse: response,
+		sentiment: sentiment
+	})
 })
 
 app.get("/edit/:id", (req, res) => {

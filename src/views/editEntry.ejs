@@ -9,8 +9,8 @@
 		<title>My Website</title>
 		<link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="../viewEntry.css">
-		<link rel="stylesheet" href="../entryOverlay.css">
 		<link rel="stylesheet" href="../style.css">
+		<link rel="stylesheet" href="../music.css">
 	</head>
 
 	<header>
@@ -35,11 +35,14 @@
 				<a href="/journal/<%= entry.id %>"><button type="button" id="cancelBtn" class="navBtn btn btn-outline-secondary btn-sm">Cancel</button></a>
 			</div> <!-- journal -->
 
+			<div id="sentiment"></div>
 			<div id="responses">
+				
 			</div>
 		</div>
 
 		<script src="../js/editEntry.js"></script>
 		<script src="../js/checkEntry.js"></script>
+		<script src="../js/music.js"></script>
 	</body>
 </html>
