@@ -5,12 +5,12 @@
 #musicContain {
     position: fixed;
     bottom: 0;
-    left: 0;
+    right: 0;
     margin: 2em;
-    width: 25em;
-    height: 15em;
-    /* border: solid; */
+    width: 400px;
+    height: 600px;
     z-index: 2;
+    background: transparent
 }
 
 #player {
@@ -18,15 +18,30 @@
     position: relative;
     flex-direction: column;
     align-items: center;
-    width: 25em;
+    width: 400px;
+    height: 100%;
     padding: 2%;
-    border: solid grey 0.5px;
-    border-radius: 20px;
+    backdrop-filter: blur(13px);
+    border-radius: 0.5em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: .5rem .5rem 2rem rgba(100, 100, 100, 0.15);
     background-color: rgb(255, 255, 255, 0.75);
     bottom: 0;
     left: 0;
-    transition: top 1s;
+    transition: top 1s, box-shadow 0.3s ease-in-out;
     top: 80%;
+}
+
+#chatSection,
+#playerSection {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#player:hover {
+    box-shadow: .5rem .5rem 2rem rgba(0, 0, 0, 0.2);
 }
 
 #icons {
@@ -58,9 +73,14 @@
 .fa-backward-step,
 .fa-forward-step,
 .fa-music,
+.fa-message,
 .fa-angle-up,
 .fa-angle-down {
     color: grey
+}
+
+.fa-music, .fa-message{
+    padding: 1em 1em 1em 1em;
 }
 
 #info {

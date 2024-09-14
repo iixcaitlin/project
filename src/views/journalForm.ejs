@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<!-- <link rel="stylesheet" href="../entryOverlay.css"> -->
-</head>
-
-<body>
-
-<button onclick="check()"> send data </button>
-
 <div id="journalContain">
 	<form action="/submitJournal" method="post">
 		<div class="journal container-md">
@@ -21,22 +8,15 @@
 			<div class="container">
 				<div class="entry row">
 					<div class="entryText" id="highlights"></div>
-					<textarea class="entryText" id="text"></textarea>
+					<textarea class="entryText" name="entry" id="text"></textarea>
 				</div>
 			</div>
 		</div>
 		
-		<div class="submit-button">
-			<button type="submit" class="btn btn-outline-secondary btn-sm">submit</button>
-		</div> 
+		<button type="submit" class="journalBtn">submit</button>
 	</form>
+	<button id="sendDataBtn" class="journalBtn"><i class="fa-regular fa-clipboard"></i></button>
+
 
 	<div id="responses"></div>
 </div>
-
-
-<script src="../js/checkCreate.js"></script>
-<script src="../js/editCreate.js"></script>
-
-</body>
-</html>

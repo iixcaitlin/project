@@ -8,42 +8,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Website</title>
-    <link rel="stylesheet" href="../style.css">
 	<link rel="stylesheet" href="../music.css">
+	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="../chat.css">
+	<link rel="stylesheet" href="../mainPage.css">
   </head>
-
-	<header>
-		<!-- <a href="/signup">
-			<button type="button" id="signupBtn" class="btn btn-outline-secondary btn-sm">Sign Up</button>
-		</a>
-		<a href="/login">
-			<button type="button" id="loginBtn" class="btn btn-outline-secondary btn-sm">Login</button>
-		</a> -->
-		<!-- <a href="/userInfo">
-			<button type="button" id="" class="btn btn-outline-secondary btn-sm">UserInfo</button>
-		</a> -->
-		
-	</header>
 	
   <body class ="container">
+	<%- include("navbar")%>
 	<%- include("music") %>
 
-    <h1>Welcome to My Website</h1>
-		<a href="/createJournal"> <button type="button" class="navBtn btn btn-outline-secondary btn-sm">+</button></a>
-		<a href="/logout"><button type="button" class="navBtn btn btn-outline-secondary btn-sm"> LOGOUT</button></a>
-		
-		<div id = "entry_display">
-			<% for (var i = 0; i < data.length; i++){ %>
-				<div class = "card">
-					<div class = "card-body">
-						<a href="/journal/<%= data[i].id %>" ><h4 class="card-title"><%= data[i].title %></h4></a>
-						<p class="card-text"><%- data[i].text %></p>
-					</div> <!--(card-body)-->
-				</div> <!--(card)-->
-			<% } %>
-				
-		</div> <!--entry_display-->
-		<script src="../js/music.js"></script>
+    <h1 id="title"><%= name %>'s Journal</h1>
+	<a href="/createJournal"> <button id="createJournal">
+		<i class="fa-solid fa-plus"></i>
+	</button></a>
+	
+	<div id = "entry_display">
+		<% for (var i = 0; i < data.length; i++){ %>
+			<div class = "card" onclick="location.href = '/journal/<%= data[i].id %>'">
+				<div class = "card-body">
+					<a href="/deleteEntry/<%= data[i].id %>"><i class="fa-solid fa-trash-can"></i></a>
+					<div class="cardHeadings">
+						<h4 class="card-title"><%= data[i].title %></h4>
+						<h6 class="card-subtitle mb-2 text-body-secondary"><%= data[i].date.toDateString() %></h6>
+					</div>
+					<p class="card-text"><%- data[i].text %></p>
+				</div> <!--(card-body)-->
+			</div> <!--(card)-->
+		<% } %>
+			
+	</div> <!--entry_display-->
+	<script src="../js/music.js" defer></script>
+	<script src="../js/chat.js" defer></script>
   </body>
 
 </html>

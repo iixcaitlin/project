@@ -1,3 +1,5 @@
+document.getElementById("sendDataBtn").addEventListener("click", check)
+
 async function check() {
     try {
         if (sessionStorage.getItem("notes")) {
@@ -97,3 +99,7 @@ function dataParse(data) {
     console.log("after parsing:",data)
     return data
 }
+
+
+
+// +uP2QA4K5TAHKTe

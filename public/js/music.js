@@ -5,11 +5,29 @@ var duration = document.getElementById("duration")
 var totalDuration = document.getElementById("totalDuration")
 var playBtn = document.getElementById("playpause")
 let player = document.createElement("audio")
-localStorage.setItem("playerShow", "false")
+
 
 let update;
 let playing = false;
 var index = 0
+
+
+function switchToChat(){
+    document.getElementById("musicLink").classList.remove("active")
+    document.getElementById("musicSection").style.visibility = "hidden"
+    document.getElementById("msgLink").classList.add("active")
+    document.getElementById("chatSection").style.visibility = "visible"
+    localStorage.setItem("section", "chat")
+}
+
+function switchToMusic(){
+    document.getElementById("msgLink").classList.remove("active")
+    document.getElementById("chatSection").style.visibility = "hidden"
+    document.getElementById("musicLink").classList.add("active")
+    document.getElementById("musicSection").style.visibility = "visible"
+    localStorage.setItem("section", "music")
+}
+
 
 let musicList = [
     {
@@ -116,22 +134,50 @@ function toggle() {
     }
     let playerShow = localStorage.getItem("playerShow")
     if (playerShow === "false"){
-        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
-        player.style.top = "80%"
-    } else {
         toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
+        player.style.top = "90%"
+    } else {
+        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
         player.style.top = "0%"
     }
 }
 
 function playerStart() {
+    let toggle = document.getElementById("toggle")
+    let player = document.getElementById("player")
+
+    if (localStorage.getItem("playerShow")) {
+        // pass
+    } else {
+        localStorage.setItem("playerShow", "false")
+    }
+
     let playerShow = localStorage.getItem("playerShow")
     if (playerShow === "false"){
-        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
-        player.style.top = "80%"
-    } else {
+        console.log("i am hidden")
         toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
+        player.style.top = "90%"
+    } else if (playerShow === "true") {
+        console.log("i am showing")
+        toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
         player.style.top = "0%"
     }
 }
+
+function menuStart() {
+    if (localStorage.getItem("section")) {
+        //pass
+    } else {
+        localStorage.setItem("section", "music")
+    }
+
+    let section = localStorage.getItem("section")
+    if (section === "music") {
+        switchToMusic()
+    } else if (section === "chat") {
+        switchToChat()
+    }
+}
+
 playerStart()
+menuStart()

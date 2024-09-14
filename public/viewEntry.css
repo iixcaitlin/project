@@ -89,13 +89,30 @@
 #responses {
   max-width: 300px;
   min-width: 300px;
-  max-height: 800px;
-  min-height: 800px;
+  max-height: 700px;
+  min-height: 700px;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 1em;
+}
+
+#responses::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+#responses::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+#responses::-webkit-scrollbar-thumb {
+  background: rgb(240, 240, 240); 
+  border-radius: 10px;
+}
+
+#responses::-webkit-scrollbar-thumb:hover {
+  background: #e4e4e4; 
 }
 
 .x {
@@ -145,4 +162,97 @@
   -webkit-transform: rotate(360deg);
   transform: rotate(360deg);
 }
+}
+
+
+.entryBtn {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.entryBtn:hover,
+.entryBtn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.entryBtn:hover {
+  transform: translateY(-1px);
+}
+
+.entryBtn:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+#sendDataBtn {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10%;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 5em;
+  min-width: 5em;
+  position: fixed;
+  bottom: 3em;
+  left: 5em;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+#sendDataBtn:hover,
+#sendDataBtn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+#sendDataBtn:hover {
+  transform: translateY(-1px);
+}
+
+#sendDataBtn:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
 }

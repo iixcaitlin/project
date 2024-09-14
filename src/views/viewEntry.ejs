@@ -9,35 +9,32 @@
 		<title>My Website</title>
 		<link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="../viewEntry.css">
-		<link rel="stylesheet" href="../style.css">
 		<link rel="stylesheet" href="../music.css">
+		<link rel="stylesheet" href="../style.css">
+		<link rel="stylesheet" href="../chat.css">
 	</head>
-
-	<header>
-		<a href="/"><button type="button" id="mainBtn" class="navBtn btn btn-outline-secondary btn-sm">Main Page</button></a>
-		<a href="/home"><button type="button" id="homeBtn" class="navBtn btn btn-outline-secondary btn-sm">Home Page</button></a>
-	</header>
 	
 	<body>
+		<%- include("navbar")%>
 		<%- include("music") %>
+		<header>
+			<a href="/home"><button>Back</button></a>
+		</header>
 		<div class ="journal">
 			<div class="header">
 				<div class="title">
 					<h3><%= entry.title %></h3>
 					<a href="/edit/<%= entry.id %>"><i class="fa-regular fa-pen-to-square"></i></a>
-					<button onclick="check('<%= id %>')"> send data </button>
 				</div>
 				<h6><%= entry.date.toDateString() %></h6>
 			</div>
 			<div class="entry">
 				<div id="entryText"><%= entry.text %></div>
 			</div>
-			<div class="response">
-				<p id="AIresponse"></p>
-			</div>
-		</div> <!-- journal -->
-		<script src="/js/checkEntry.js"></script>
-		<script src="../js/music.js"></script>
 
+		</div> <!-- journal -->
+		<script src="../js/music.js" defer></script>
+		<script src="../js/chat.js" defer></script>
+	
 	</body>
 </html>

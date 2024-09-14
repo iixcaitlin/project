@@ -1,37 +1,56 @@
+
+
 <div id="musicContain">
 <div id="player">
+
     <div id="icons">
-        <i class="fa-solid fa-music"></i>
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+                <a id="musicLink" class="nav-link" onclick="switchToMusic()"><i class="fa-solid fa-music"></i></a>
+            </li>
+            <li class="nav-item">
+                <a id="msgLink" class="nav-link" onclick="switchToChat()"><i class="fa-regular fa-message"></i></a>
+            </li>
+        </ul>
         <button class="musicBtn" id="toggle" onclick="toggle()">
             <i class="fa-solid fa-angle-up"></i>
         </button>
         <!-- <i class="fa-solid fa-angle-down"></i> -->
     </div>
-    <div id="details">
-        <div><p id="songName">song name</p></div>
-        <div><p id="songArtist">song artist</p></div>	
+
+    <div id="musicSection">
+        <div id="musicplayer">
+            <div id="details">
+                <div><p id="songName">song name</p></div>
+                <div><p id="songArtist">song artist</p></div>	
+            </div>
+            <div id="info">		
+                <div id="duration" class="duration">00:00</div>
+                    <input type="range" id="slider" value="0" min="1" max="100" onchange="seek()">
+                <div id="totalDuration" class="duration">00:00</div>
+            </div>
+            <div id="buttons">
+                <div id="prev">
+                    <button class="musicBtn" onclick="prevSong()">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                </div>
+                <div id="play">
+                    <button class="musicBtn" id="playpause" onclick="playpause()">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+                <div id="next">
+                    <button class="musicBtn" onclick="nextSong()">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="info">		
-        <div id="duration" class="duration">00:00</div>
-            <input type="range" id="slider" value="0" min="1" max="100" onchange="seek()">
-        <div id="totalDuration" class="duration">00:00</div>
-    </div>
-    <div id="buttons">
-        <div id="prev">
-            <button class="musicBtn" onclick="prevSong()">
-                <i class="fa-solid fa-backward-step"></i>
-            </button>
-        </div>
-        <div id="play">
-            <button class="musicBtn" id="playpause" onclick="playpause()">
-                <i class="fa-solid fa-play"></i>
-            </button>
-        </div>
-        <div id="next">
-            <button class="musicBtn" onclick="nextSong()">
-                <i class="fa-solid fa-forward-step"></i>
-            </button>
-        </div>
+
+    <div id="chatSection">
+        <%- include("chat") %>
     </div>
 </div>
 </div>

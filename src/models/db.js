@@ -17,6 +17,7 @@ const loginSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
 	email: String,
 	username: String,
+	name: String,
 	password: String,
 	salt: String
 })
