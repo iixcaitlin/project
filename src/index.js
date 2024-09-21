@@ -44,11 +44,13 @@ async function getPrompt(username, name) {
 	journal when necessary. Do not immediately give an analysis of their journal, as they might feel overwhelmed or they might
 	want to talk about other things. They should lead the conversation, and you should be guiding them and help them talk about
 	their feelings.`
-	await Entry.find({username: username}).then((doc) => {
-		for (let i = 0; i < doc.length; i ++) {
-			chatPrompt = chatPrompt + "\n" + doc[i].text
-		}
-	})
+	if (username != "") {
+		await Entry.find({username: username}).then((doc) => {
+			for (let i = 0; i < doc.length; i ++) {
+				chatPrompt = chatPrompt + "\n" + doc[i].text
+			}
+		})
+	}
 	return chatPrompt
 }
 
@@ -193,13 +195,13 @@ app.get("/", async (req, res) => {
 	// for (let i = 0; i < emotions.length; i++){
 	// 	let curAnalysis = emotions[i].split(",")
 	// 	let curEmotion = curAnalysis[1]
-	// 	if (curEmotion === 0){
+	// 	if (curEmotion == 0){
 	// 		curEmotion = "emotion.sad"
-	// 	} else if (curEmotion === 1) {
+	// 	} else if (curEmotion == 1) {
 	// 		curEmotion = "emotion.happy"
-	// 	} else if (curEmotion === 2) {
+	// 	} else if (curEmotion == 2) {
 	// 		curEmotion = "emotion.love"
-	// 	} else if (curEmotion === 3) {
+	// 	} else if (curEmotion == 3) {
 	// 		curEmotion = "emotion.angry"
 	// 	} else {
 	// 		curEmotion = "emotion.fear"
@@ -297,21 +299,17 @@ app.post("/login", passport.authenticate("local", {
 ))
 
 app.get("/logout", async (req, res) => {
-
-	console.log('pre logout')
 	req.logout(function (err) {
 		if (err) { return next(err); }
-		console.log("in logout")
 		res.redirect('/');
 	});
-
-	console.log("post logout")
-
 })
 
 app.post("/chat", async (req, res) => {
+	let username;
+	req.user.username? username = req.user.username: ""
 	let chatLog = JSON.parse(req.body.log)
-	let prompt = await getPrompt(req.user.username, req.user.name)
+	let prompt = await getPrompt(username, req.user.name)
 	console.log("prompt:", prompt)
 	chatLog.unshift({role: "user", content: prompt})
 	var response = await chat(chatLog)
@@ -336,7 +334,8 @@ app.get("/journal/:id", (req, res) => {
 })
 
 app.post("/journal/:id", async (req, res) => {
-	// console.log(req.body.data)
+	console.log(req.body.data)
+
 	var response = await main(req.body.data)
 	console.log(response)
 	var sentiment = await getSentiment(req.body.data)

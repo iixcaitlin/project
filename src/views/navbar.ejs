@@ -24,7 +24,7 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">User</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <li><a class="dropdown-item"onclick="clearData()" href="/logout">Logout</a></li>
                             </ul>
                         </li>
                     <% } else { %>
@@ -38,3 +38,10 @@
         </div>
     </div>
 </nav>
+
+<script>
+    function clearData() {
+        console.log("clear data running..")
+        localStorage.setItem("log", JSON.stringify([{role: "assistant", content: "{\"response\":\"Hi there, how can I help you today?\"}"}]))
+    }
+</script>
