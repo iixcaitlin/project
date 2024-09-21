@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/iixcaitlin/project#readme",
   "dependencies": {
+    "chart.js": "^4.4.4",
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "dompurify": "^3.0.11",

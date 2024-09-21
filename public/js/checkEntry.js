@@ -31,13 +31,14 @@ async function check(id){
     loading.className = "loader"
     loading.innerText = "Loading..."
     responseArea.appendChild(loading)
+    console.log(textArea.value)
 
     await fetch(`/journal/${id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: textArea.innerHTML})
+        body: JSON.stringify({ data: textArea.value})
     })
     .then((response) => {
         return response.text()
@@ -51,7 +52,7 @@ async function check(id){
 
         document.getElementsByClassName("loader")[0].remove(); // remove loading
 
-        document.getElementById("sentiment").innerText = JSON.stringify(data.sentiment)
+        // document.getElementById("sentiment").innerText = JSON.stringify(data.sentiment)
 
         GPTdata = dataParse(data.GPTresponse) //ensure we only get the dictionary part of chatgpt reply
         localStorage.setItem(id, GPTdata)
@@ -107,16 +108,6 @@ function deleteResponse(num) {
     let response = document.getElementById("response" + num)
     response.style.opacity = '0';
     response.addEventListener("transitionend", () => {response.remove()})
-    //remove highlight as well, because these objects should be linked
-
-    /**
-     ideas: 
-      1.   we can add detect change event of span tags and adjust response accordingly 
-         (more on this later)
-
-      2.  add fade out effect on removal 
-      https://stackoverflow.com/questions/33424138/how-to-remove-a-div-with-fade-out-effect-in-javascript
-     */
     document.getElementById(`a${num}`).remove()
 }
 

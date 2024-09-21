@@ -25,6 +25,19 @@ function logChat(role, message) {
     }
 }
 
+function chatHistory() {
+    let log = JSON.parse(localStorage.getItem("log"))
+    for (let i = 0; i < log.length; i++) {
+        let msgType;
+        let message;
+        log[i].role === "user"? msgType = "outgoing": msgType = "incoming"
+        log[i].role === "user"? message = log[i].content: message = JSON.parse(log[i].content).response
+        let cur = createChat(message, msgType)
+        chat.appendChild(cur)
+    }
+    chat.scrollTo(0, chatbox.scrollHeight)
+}
+
 async function generateResponse(chatResponse){
     await fetch("/chat", {
             method: "POST",
@@ -82,3 +95,4 @@ chatInput.addEventListener("keyup", (event) => {
 })
 
 sendBtn.addEventListener("click", sendChat)
+chatHistory()

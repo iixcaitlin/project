@@ -10,7 +10,8 @@
     width: 400px;
     height: 600px;
     z-index: 2;
-    background: transparent
+    background: transparent;
+    pointer-events:none;
 }
 
 #player {
@@ -30,6 +31,7 @@
     left: 0;
     transition: top 1s, box-shadow 0.3s ease-in-out;
     top: 80%;
+    pointer-events: auto;
 }
 
 #chatSection,
@@ -50,7 +52,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color: white;
+    z-index: 5;
 }
+
 
 #details {
     height: 70%;

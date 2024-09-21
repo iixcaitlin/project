@@ -30,7 +30,6 @@ function wordDistance(word1, word2) {
 	return grid[grid.length - 1][grid[0].length - 1]
 }
 
-console.log(wordDistance("natlan", "batman"))
-
-
-module.exports = {wordDistance: wordDistance}
+//turn into list
+//indexOf() starting word
+// export {wordDistance}

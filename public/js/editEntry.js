@@ -28,6 +28,25 @@ textArea.addEventListener("mousemove", (mouse) => {
 
 })
 
+function findClosest(text, response){
+    response = response.split(" ")
+    let closest;
+    let smallestDistance = 100
+    console.log("response:", response)
+    for (let i = 0; i < text.length; i++){
+        if (text[i] === response[0]) {
+            let curSentence = text.slice(i, i + response.length + 1)
+            console.log("current sentence:", curSentence)
+            console.log("edit distance:", wordDistance(curSentence, response))
+            if (wordDistance(curSentence, response) < smallestDistance) {
+                smallestDistance = wordDistance(curSentence, response)
+                closest = curSentence
+            }
+        }
+    }
+    return closest
+}
+
 // saving updates to entry
 function saveEntry(id){
     var title = document.getElementById("title").innerText
@@ -81,7 +100,19 @@ function reApplyHighlights(event){
 function applyHighlights(text, data){
     var num = 1
     for (key in data){
-        text = text.replace(`/\n$/g`, '\n\n').replace(key, `<span class="highlighted" id='a${num}'>$&</span>`)
+        if (text.includes(key)) {
+            text = text.replace(`/\n$/g`, '\n\n').replace(key, `<span class="highlighted" id='a${num}'>$&</span>`)
+        } else {
+            console.log("highlight not found...")
+            var splitText = text.split(" ")
+            var closest = findClosest(splitText, key)
+            closest = closest.join(" ")
+            console.log("closest: ", closest)
+            data[closest] = data[key]
+            delete data[key]
+            console.log("data:", data)
+            text = text.replace(`/\n$/g`, '\n\n').replace(closest, `<span class="highlighted" id='a${num}'>$&</span>`)
+        }
         num ++
     }
     return text+" " //magic space!
