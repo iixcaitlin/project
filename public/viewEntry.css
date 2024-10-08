@@ -62,11 +62,11 @@
   padding: 0;
   margin:0;
   border-radius: 3;
-  background-color: #f5ece1;
+  background-color: #bee9e891;
 }
 
 .response {
-  background-color: #f5ece1;
+  background-color: #BEE9E8;
   padding: 2em 1em 1em 1em;
   border-radius: 10px; 
   transition: opacity 1s;
@@ -255,4 +255,8 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
+}
+
+.fa-pen-to-square {
+  color: #1B4965
 }

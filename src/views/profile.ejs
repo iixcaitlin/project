@@ -10,16 +10,32 @@
 	<link rel="stylesheet" href="../music.css">
 	<link rel="stylesheet" href="../style.css">
 	<link rel="stylesheet" href="../chat.css">
+	<link rel="stylesheet" href="../profile.css">
 </head>
 
 <body>
-	
 	<%- include("navbar") %>
 	<%- include("music") %>
 
-	<div id="emotions"></div>
+	<div id="profile">
+		<div id="charts">
+			<canvas class="chart" id="emotions"></canvas>
+			<canvas class="chart" id="sentiments"></canvas>
+		</div>
+	
+		<div id="activities">
+			<h3>Ideas for Improving Happiness</h3>
+			<ul id="activitiesList">
+			</ul>
+		</div>
+	</div>
 
-	<script src="../emotionchart.js" defer></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script src="../js/emotionchart.js" onload="createCharts('<%= emotions %>', '<%= sentiments %>', '<%= activities %>')"></script>
+	<script src="../js/profile.js" onload="loadList('<%= activities %>')"></script>
+
 	<script src="../js/music.js" defer></script>
 	<script src="../js/chat.js" defer></script>
 </body>

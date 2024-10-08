@@ -6,7 +6,9 @@ const entrySchema = new mongoose.Schema({
 	username: String,
 	date: { type: Date, default: Date.now()},
 	title: String,
-	text: String
+	text: String,
+	emotions: Object,
+	sentimentScore: Number,
 })
 
 const loginSchema = new mongoose.Schema({

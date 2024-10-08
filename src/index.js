@@ -54,6 +54,37 @@ async function getPrompt(username, name) {
 	return chatPrompt
 }
 
+async function activities(username) {
+	console.log("running activities function...")
+	var prompt = `
+	Below are the user's journal entries. Provide at least five suggestions on things they can do to increase their happiness.
+	Try to suggest things that you think they might enjoy. Suggestions could range from short and simple (giving a hug) to something 
+	that requires more time (going on a bike ride). If not enough information is provided, suggest things that would generally 
+	improve happiness. Only suggest the activity, no additional information is needed. Output the suggestions into a javascript list.
+	DO NOT write the word javascript in the output.
+	`
+
+	if (username != "") {
+		await Entry.find({username: username})
+		.then((doc) => {
+			console.log(doc)
+			prompt = prompt + doc
+		})
+	}
+	const chatCompletion = await openai.chat.completions.create({
+		messages: [{role: "user", content: prompt}],
+		model: "gpt-4-turbo",
+		max_tokens: 1000
+	})
+	let list = JSON.parse(chatCompletion.choices[0].message.content)
+
+	let activities = {}
+	for (let i = 0; i < list.length; i++) {
+		activities[i] = list[i]
+	}
+	return activities
+}
+
 // console.log(openai)
 async function main(text) {
 	var prompt = `
@@ -172,8 +203,43 @@ app.get("/home", isAuth, async (req, res) => {
 })
 
 app.get("/profile", isAuth, async (req, res) => {
-	res.render("profile", {
-		loggedIn: (req.user ? true : false)
+	await Entry.find({username: req.user.username})
+	.then(async (doc) => {
+		let emotionNames = []
+		let emotionScores = []
+		let sentimentScores = {}
+		let totalEmotions = {}
+		for (let i = 0; i < doc.length; i++) {
+			let curDate = doc[i].date
+			let date = curDate.getMonth() + "/" + curDate.getDate() + "/" + curDate.getFullYear()
+			sentimentScores[date] = doc[i].sentimentScore
+			for (let emotion in doc[i].emotions) {
+				if (emotionNames.includes(emotion)){
+					emotionScores[emotionNames.indexOf(emotion)] += doc[i].emotions[emotion]
+				} else {
+					emotionNames.push(emotion)
+					emotionScores.push(doc[i].emotions[emotion])
+				}
+			}
+		}
+		for (let i = 0; i < emotionNames.length; i++) {
+			totalEmotions[emotionNames[i]] = emotionScores[i]
+		}
+
+		console.log(totalEmotions)
+		console.log(sentimentScores)
+		let activitySuggestions = await activities(req.user.username)
+
+		res.render("profile", {
+			loggedIn: (req.user ? true : false),
+			emotions: JSON.stringify(totalEmotions),
+			sentiments: JSON.stringify(sentimentScores),
+			activities: JSON.stringify(activitySuggestions),
+		})
+	})
+	.catch((err) => {
+		console.log(err)
+		res.redirect("/home")
 	})
 })
 
@@ -334,12 +400,65 @@ app.get("/journal/:id", (req, res) => {
 })
 
 app.post("/journal/:id", async (req, res) => {
-	console.log(req.body.data)
-
+	var text = req.body.data
 	var response = await main(req.body.data)
-	console.log(response)
-	var sentiment = await getSentiment(req.body.data)
-	console.log("sentiment results:", sentiment)
+	let finalSentiment = {}
+	var sentimentScore = 0
+
+	if (text.length > 350) {
+		let words = text.split(" ")
+		let sections = []
+		for (let i = 0; i < Math.ceil(words.length/20); i++) {
+			sections.push(words.slice(i*20, (i*20) + 21))
+		}
+		let emotionList = []
+		let emotionScores = []
+
+		for (let i = 0; i < sections.length; i++) {
+			let curSentiment = await getSentiment(sections[i].join(" "))
+			sentimentScore += curSentiment.sentiment.score
+			console.log(curSentiment.sentiment.score)
+			curSentiment = curSentiment.classifications
+			for (let j = 0; j < curSentiment.length; j++) {
+				if (emotionList.includes(curSentiment[j].intent)){
+					emotionScores[emotionList.indexOf(curSentiment[j].intent)] += curSentiment[j].score
+				} else {
+					emotionList.push(curSentiment[j].intent)
+					emotionScores.push(curSentiment[j].score)
+				}
+			}
+		}
+		sentimentScore /= sections.length
+		for (let i = 0; i < emotionList.length; i++) {
+			finalSentiment[emotionList[i]] = emotionScores[i]
+		}
+	} else {
+		var sentiment = await getSentiment(req.body.data)
+		sentimentScore = sentiment.sentiment.score
+	}
+
+	await Entry.findById(req.params.id)
+	.then((doc) => {
+		if (doc.emotions) {
+			// pass
+		} else {
+			doc.emotions = {}
+		}
+		if (response.length > 350) {
+			doc.emotions = finalSentiment
+		} else {
+			let emotionList = sentiment.classifications
+			console.log("emotion list:", emotionList)
+			for (let i=0; i < emotionList.length; i++) {
+				let curEmotion = emotionList[i].intent
+				doc.emotions[curEmotion]? doc.emotions[curEmotion] += emotionList[i].score: doc.emotions[curEmotion] = emotionList[i].score
+			}
+		}
+		console.log(sentimentScore)
+		doc.sentimentScore = sentimentScore
+		console.log(doc)
+		doc.save()
+	})
 	entryData = [response, sentiment]
 	res.send({
 		GPTresponse: response,

@@ -135,7 +135,7 @@ function toggle() {
     let playerShow = localStorage.getItem("playerShow")
     if (playerShow === "false"){
         toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
-        player.style.top = "90%"
+        player.style.top = "93%"
     } else {
         toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'
         player.style.top = "0%"
@@ -156,7 +156,7 @@ function playerStart() {
     if (playerShow === "false"){
         console.log("i am hidden")
         toggle.innerHTML = '<i class="fa-solid fa-angle-up"></i>'
-        player.style.top = "90%"
+        player.style.top = "93%"
     } else if (playerShow === "true") {
         console.log("i am showing")
         toggle.innerHTML = '<i class="fa-solid fa-angle-down"></i>'

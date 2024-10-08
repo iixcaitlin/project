@@ -1,52 +1,80 @@
-const { Chart } = await import('chart.js');
+function createCharts(radardata, lineData) {
+  createRadar(radardata)
+  createLine(lineData)
+}
 
-const data = {
-    labels: [
-      'Sad',
-      'Happy',
-      'Love',
-      'Anger',
-      'Fear',
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [65, 59, 90, 81, 56, 55, 40],
-      fill: true,
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgb(255, 99, 132)',
-      pointBackgroundColor: 'rgb(255, 99, 132)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(255, 99, 132)'
-    },
-    //  {
-    //   label: 'My Second Dataset',
-    //   data: [28, 48, 40, 19, 96, 27, 100],
-    //   fill: true,
-    //   backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    //   borderColor: 'rgb(54, 162, 235)',
-    //   pointBackgroundColor: 'rgb(54, 162, 235)',
-    //   pointBorderColor: '#fff',
-    //   pointHoverBackgroundColor: '#fff',
-    //   pointHoverBorderColor: 'rgb(54, 162, 235)'
-    // }
-    ]
-  };
-
-const config = {
-type: 'radar',
-data: data,
-options: {
-    elements: {
-    line: {
-        borderWidth: 3
+function createRadar(data) {
+  data = JSON.parse(data)
+  var emotions = []
+  var emotionValues = []
+  for (let emotion in data){
+    emotionValues.push(data[emotion])
+    emotion = emotion.split(".")[1]
+    emotions.push(emotion)
+  }
+  new Chart(
+    document.getElementById('emotions'), {
+    type: 'radar',
+      data: {
+        labels: emotions,
+        datasets: [{
+            label: "emotions",
+            data: emotionValues,
+            backgroundColor: ['#BEE9E8'],
+            borderColor: ['#62B6CB']
+        }],
+      },
+      options: {
+        responsive: false,
+        elements: {
+            line: {
+              borderWidth: 3
+            }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: "Overall Emotions from Journal Entries"
+          },
+          legend: {
+            position: "bottom"
+          }
+        }
+      },
     }
-    }
-},
-};
-
-
-new Chart(
-    document.getElementById('emotions'),
-    config
   );
+}
+
+function createLine(data) {
+  data = JSON.parse(data)
+  var dates = []
+  var sentiments = []
+  for (var date in data) {
+    dates.push(date)
+    sentiments.push(data[date])
+  }
+  new Chart(document.getElementById("sentiments"), {
+    type: 'line',
+    data: {
+       labels: dates,
+       datasets: [{
+          label: "mood",
+          data: sentiments,
+          backgroundColor: ['#BEE9E8'],
+          borderColor: ['#62B6CB']
+       }],
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        title: {
+          display: true,
+          text: "Overall Mood in Journal Entries"
+        },
+        legend: {
+          position: "bottom"
+        }
+       }
+    },
+ });
+}

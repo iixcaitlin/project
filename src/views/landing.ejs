@@ -10,16 +10,62 @@
 	<link rel="stylesheet" href="../music.css">
 	<link rel="stylesheet" href="../style.css">
 	<link rel="stylesheet" href="../chat.css">
+	<link rel="stylesheet" href="../landing.css">
 </head>
 
 <body>
 	<%- include("navbar") %>
 	<%- include("music") %>
 
-	<h1> Landing Page </h1>
-	<% if (session_data) { %>
-		<p><%= session_data %></p>
-	<% }%>
+	<div id="landing">
+		<!-- heading -->
+		<header>
+			<div id="heading">
+				<!-- explain value you provide -->
+				<h1>JournAl: An AI Journaling Application</h1>
+				<!-- explain how you'll create value -->
+				<p>Developed to increase overall happiness, and ultimately, improve mental well-being, this AI powered journal provides suggestions for you while you write and analyses your emotions.</p> 
+				<div id="action">
+					<a href="/signup"><button class="signup">Sign Up</button></a>
+					<p>Backed by research and based on HarvardX's Managing Happiness course</p>
+				</div>
+			</div>
+			<!-- some sort of image -->
+		</header>
+
+		<!-- features and benefits -->
+		<div id="features">
+			<div class="featureSection">
+				<img class="image" src="../images/business-success-chart.svg">
+				<div class="description">
+					<h4>Journal Analysis</h4>
+					<p>Provides suggestions on your journal entries to help you talk through your feelings and ideas, which helps improve overall happiness.</p>
+				</div>
+			</div>
+
+			<div class="featureSection">
+				<div class="description">
+					<h4>AI Therapist Chatbox</h4>
+					<p>The build-in AI chatbox acts as a therapist and guides your thoughts, enabling you to talk with someone about how you feel.</p>	
+				</div>
+				<img class="image" src="../images/work-from-home.svg">
+			</div>
+
+			<div class="featureSection">
+				<img class="image" src="../images/happy-man-waving.svg">
+				<div class="description">
+					<h4>Sentiment Analysis</h4>
+					<p>The integrated LLM scans for your emotions in your journal entry and provides a summary in your profile page, allowing you to see your total mood and how you've been feeling over time.</p>	
+				</div>
+			</div>
+		</div>
+		
+		<div id="end">
+			<h3>Try the AI Journaling Application Now!</h3>
+			<a href="/signup"><button class="signup">Sign Up</button></a>
+		</div>
+	</div>
+
 
 	<script src="../js/music.js" defer></script>
 	<script src="../js/chat.js" defer></script>

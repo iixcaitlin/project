@@ -35,7 +35,7 @@ function chatHistory() {
         let cur = createChat(message, msgType)
         chat.appendChild(cur)
     }
-    chat.scrollTo(0, chatbox.scrollHeight)
+    chat.scrollTo(0, chat.scrollHeight)
 }
 
 async function generateResponse(chatResponse){
@@ -53,6 +53,14 @@ async function generateResponse(chatResponse){
     })
     .then((data) => {
         let response = JSON.parse(data).response
+        try {
+            if (JSON.parse(response).response) {
+                response = JSON.parse(response).response
+            }
+        } catch {
+            // pass
+        }
+
         logChat("assistant", data)
         chatResponse.innerHTML = `<p>${response}</p>`
     })
@@ -60,7 +68,8 @@ async function generateResponse(chatResponse){
         chatResponse.innerHTML = `<p>There seems to be an error... ${err}</p>`
     })
     .finally(() => {
-        chat.scrollTo(0, chatbox.scrollHeight)
+        chat.scrollTo(0, chat.scrollHeight)
+        console.log(chatbox.scrollHeight)
     })
 }
 
@@ -72,12 +81,12 @@ const sendChat = () => {
     chatInput.style.height = `${inputHeight}px`
 
     chat.appendChild(createChat(msg, "outgoing"))
-    chat.scrollTo(0, chatbox.scrollHeight)
+    chat.scrollTo(0, chat.scrollHeight)
 
     setTimeout(() => {
         chatResponse = createChat("...", "incoming")
         chat.appendChild(chatResponse)
-        chat.scrollTo(0, chatbox.scrollHeight)
+        chat.scrollTo(0, chat.scrollHeight)
         generateResponse(chatResponse)
     })
 }
