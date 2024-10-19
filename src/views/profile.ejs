@@ -18,13 +18,23 @@
 	<%- include("music") %>
 
 	<div id="profile">
+		<div id="resources">
+			<h1><%= name %>'s Profile</h1>
+			<h3>Mental Health Resources</h3>
+			<ul>
+				<li><a href="https://mhanational.org/">Mental Health America</a>:  Mental Health America is dedicated to the promotion of mental health, well-being, and condition prevention. Their website includes information about mental health and online screenings.</li> 
+				<li><a href="988lifeline.org">Suicide and Crisis Hotline</a>:  If you or someone you know is experiencing mental health or substance use-related crisis, the Lifeline network is available 24/7.</li>
+				<li><a href="https://www.samhsa.gov/mental-health">Substance Abuse and Mental Health Services Administration</a>:  The agencey within the U.S. Department of Health and Human Services that leads public health efforts by making substance use and mental disorder information, services, and research more accessible.</li>
+			</ul>
+		</div>
+
 		<div id="charts">
 			<canvas class="chart" id="emotions"></canvas>
 			<canvas class="chart" id="sentiments"></canvas>
 		</div>
 	
 		<div id="activities">
-			<h3>Ideas for Improving Happiness</h3>
+			<h3>Ideas to Improve Happiness</h3>
 			<ul id="activitiesList">
 			</ul>
 		</div>

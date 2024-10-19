@@ -18,9 +18,18 @@
 		<%- include("music") %>
 		<%- include("navbar")%>
 		<%- include("journalForm") %>
+
+		<script>
+			// localStorage.removeItem("notes")
+			localStorage.setItem("notes", JSON.stringify({"test" : ""}))
+		</script>
 		
+		<script src="../js/editDistance.js"></script>
+		<script src="../js/textareamanager.js"></script>
+		<script src="../js/highlightsmonitor.js"></script>
 		<script src="../js/checkCreate.js"></script>
 		<script src="../js/editCreate.js"></script>
+
 		<script src="../js/music.js" defer></script>
 		<script src="../js/chat.js" defer></script>	
 	</body>

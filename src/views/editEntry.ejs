@@ -18,18 +18,26 @@
 		<%- include("navbar")%>
 		<%- include("music") %>
 
+		<header>
+			<a href="/home"><button class="entryBtn">Back</button></a>
+		</header>
+
 		<div id="container">
 			<div class ="journal container">
 				<div class="header row">
-					<h3 contenteditable="true" id="title"><%= entry.title %></h3>
-					<h6><%= entry.date.toDateString() %></h6>
+					<div class="col-7">
+						<h3 contenteditable="true" id="title"><%= entry.title %></h3>
+						<h6><%= entry.date.toDateString() %></h6>
+					</div>
+					<div class="col-1">
+						<button id="sendDataBtn" onclick="check('<%= id %>')"><i class="fa-regular fa-clipboard"></i></button>
+					</div>
 				</div>
 				<div class="entry row">
 					<div class="entryText" id="highlights"><%= entry.text %></div>
 					<textarea class="entryText" id="text"><%= entry.text %></textarea>
 				</div>
 
-				<button id="sendDataBtn" onclick="check('<%= id %>')"><i class="fa-regular fa-clipboard"></i></button>
 				<button type="button" id="saveBtn" class="entryBtn" onclick="saveEntry('<%= entry.id %>')">Save</button>
 				<a href="/journal/<%= entry.id %>"><button type="button" id="cancelBtn" class="entryBtn">Cancel</button></a>
 			</div> <!-- journal -->
@@ -40,6 +48,10 @@
 			</div>
 		</div>
 
+		<script>
+			localStorage.setItem("id", '<%= id %>')
+		</script>
+		<script src="../js/textareamanager.js"></script>
 		<script src="../js/editEntry.js"></script>
 		<script src="../js/checkEntry.js"></script>
 		<script src="../js/editDistance.js"></script>

@@ -57,7 +57,7 @@ async function getPrompt(username, name) {
 async function activities(username) {
 	console.log("running activities function...")
 	var prompt = `
-	Below are the user's journal entries. Provide at least five suggestions on things they can do to increase their happiness.
+	Below are the user's journal entries. Provide 5 - 10 suggestions on things they can do to increase their happiness.
 	Try to suggest things that you think they might enjoy. Suggestions could range from short and simple (giving a hug) to something 
 	that requires more time (going on a bike ride). If not enough information is provided, suggest things that would generally 
 	improve happiness. Only suggest the activity, no additional information is needed. Output the suggestions into a javascript list.
@@ -175,9 +175,18 @@ function isAuth(req, res, next) {
 	if (req.isAuthenticated()) {
 		next()
 	} else {
-		res.status(401).send("Youre not allowed here")
+		res.redirect("/")
 	}
 }
+
+function notAuth (req, res, next) {
+	if (req.isAuthenticated()) {
+		res.redirect("/home")
+	} else {
+		next()
+	}
+}
+
 //-----------routes-------------
 
 //Session is just data the server store (SERVER ONLY!)
@@ -235,6 +244,7 @@ app.get("/profile", isAuth, async (req, res) => {
 			emotions: JSON.stringify(totalEmotions),
 			sentiments: JSON.stringify(sentimentScores),
 			activities: JSON.stringify(activitySuggestions),
+			name: req.user.name
 		})
 	})
 	.catch((err) => {
@@ -282,7 +292,6 @@ app.get("/", async (req, res) => {
 	res.render("landing", { session_data: JSON.stringify(req.session), loggedIn: loggedIn })
 })
 
-//personal middlewares
 
 // creating new journal
 app.get("/createJournal", isAuth, (req, res) => {
@@ -327,7 +336,7 @@ app.get("/deleteEntry/:id", async (req, res) => {
 
 
 // creating new account
-app.get("/signup", (req, res) => {
+app.get("/signup", notAuth, (req, res) => {
 	res.render("signup")
 })
 
@@ -352,7 +361,7 @@ app.post("/createUser", async (req, res) => {
 
 
 // logging in to account
-app.get("/login", async (req, res) => {
+app.get("/login", notAuth, async (req, res) => {
 
 	console.log(req.session)
 	res.render("login")
@@ -372,17 +381,26 @@ app.get("/logout", async (req, res) => {
 })
 
 app.post("/chat", async (req, res) => {
-	let username;
-	req.user.username? username = req.user.username: ""
+	let username, name;
+	try {
+		username = req.user.username
+	} catch {
+		username = ""
+	}
+	try {
+		name = req.user.name
+	} catch {
+		name = ""
+	}
 	let chatLog = JSON.parse(req.body.log)
-	let prompt = await getPrompt(username, req.user.name)
+	let prompt = await getPrompt(username, name)
 	console.log("prompt:", prompt)
 	chatLog.unshift({role: "user", content: prompt})
 	var response = await chat(chatLog)
 	res.send({ response: response })
 })
 
-app.get("/journal/:id", (req, res) => {
+app.get("/journal/:id", isAuth, (req, res) => {
 	var id = req.params.id
 	Entry.findById(id)
 		.then((docs) => {
@@ -399,9 +417,27 @@ app.get("/journal/:id", (req, res) => {
 		})
 })
 
+function dataParse(data) {
+    start = data.indexOf("{")
+    end = data.indexOf("}")
+    data = data.slice(start, end + 1)
+    console.log("after parsing:",data)
+    return data
+}
+
+app.post("/update", async(req, res) => {
+	console.log("update route running")
+	var text = req.body.data
+	var response = await main(text)
+	response = dataParse(response)
+	console.log("SERVERSIDE: ", response)
+	console.log(typeof response)
+	res.json(response)
+})
+
 app.post("/journal/:id", async (req, res) => {
 	var text = req.body.data
-	var response = await main(req.body.data)
+	var response = await main(text)
 	let finalSentiment = {}
 	var sentimentScore = 0
 
@@ -466,7 +502,7 @@ app.post("/journal/:id", async (req, res) => {
 	})
 })
 
-app.get("/edit/:id", (req, res) => {
+app.get("/edit/:id", isAuth, (req, res) => {
 	var id = req.params.id
 	Entry.findById(id)
 		.then((docs) => {

@@ -18,15 +18,17 @@
 		<%- include("navbar")%>
 		<%- include("music") %>
 		<header>
-			<a href="/home"><button>Back</button></a>
+			<a href="/home"><button class="entryBtn">Back</button></a>
 		</header>
 		<div class ="journal">
 			<div class="header">
 				<div class="title">
-					<h3><%= entry.title %></h3>
+					<div>
+						<h3><%= entry.title %></h3>
+						<h6><%= entry.date.toDateString() %></h6>
+					</div>
 					<a href="/edit/<%= entry.id %>"><i class="fa-regular fa-pen-to-square"></i></a>
 				</div>
-				<h6><%= entry.date.toDateString() %></h6>
 			</div>
 			<div class="entry">
 				<div id="entryText"><%= entry.text %></div>
