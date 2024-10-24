@@ -5,6 +5,19 @@
     gap: 3em;
 }
 
+h3 {
+    color: #1B4965
+}
+
+#resources h1{
+    padding: 0.5em;
+    /* text-decoration: underline; */
+}
+
+#resources li {
+    padding-top: 1em;
+}
+
 #charts {
     display: flex;
     flex-direction: column;
@@ -24,7 +37,8 @@
     box-shadow: .5rem .5rem 2rem rgba(100, 100, 100, 0.15);
 }
 
-#activities {
+#activities,
+#resources {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,5 +52,9 @@
 }
 
 #activities:hover {
+    box-shadow: .5rem .5rem 2rem rgba(100, 100, 100, 0.15);
+}
+
+#resources:hover {
     box-shadow: .5rem .5rem 2rem rgba(100, 100, 100, 0.15);
 }

@@ -1,11 +1,17 @@
 body {
-    padding: 10em;
+    padding: 1em 10em 10em 10em;
 }
 
 #landing {
     display: flex;
     flex-direction: column;
-    gap: 5em;
+    gap: 10em;
+}
+
+header {
+  display: flex; 
+  flex-direction: row;
+  align-items: center;
 }
 
 #heading {
@@ -101,10 +107,24 @@ body {
     width: 40%;
 }
 
-
 #end {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
+}
+
+@keyframes fadeInUp {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+.fade-in {
+    animation: 0.75s both fadeInUp;
 }

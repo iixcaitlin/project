@@ -79,19 +79,34 @@
 }
 
 #responses {
-  max-width: 25%;
-  min-width: 25%;
-  min-height: 45em;
-  max-height: 45em;
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 600px;
+  min-height: 600px;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 1em;
+  scroll-behavior: smooth;
 }
 
+#responses::-webkit-scrollbar {
+  width: 0.5em;
+}
 
+#responses::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
 
+#responses::-webkit-scrollbar-thumb {
+  background: rgb(240, 240, 240); 
+  border-radius: 10px;
+}
+
+#responses::-webkit-scrollbar-thumb:hover {
+  background: #e4e4e4; 
+}
 
 .entryText {
   max-height:400px;

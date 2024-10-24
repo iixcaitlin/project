@@ -3,6 +3,15 @@ const highlightArea = document.getElementById("highlights")
 const responseArea = document.getElementById("responses")
 var highlights = [] // this list should contain all the highlight spantags
 
+const textAreaManager = new TextAreaManager(textArea)
+const highlightsManager = new HighlightsManager(highlightArea, textArea, responseArea)
+
+window.addEventListener("mystorage", (event) => {
+    console.log("storage changing...")
+    highlightsManager.onStorageChange(event.key)
+})
+
+
 
 textArea.addEventListener("scroll",matchScrolling)
 textArea.addEventListener("input", reApplyHighlights)
@@ -20,45 +29,54 @@ textArea.addEventListener("mousemove", (mouse) => {
     
 })
 
+function findClosest(text, response){
+    response = response.split(" ")
+    let closest;
+    let smallestDistance = 100
+    console.log("response:", response)
+    for (let i = 0; i < text.length; i++){
+        if (text[i] === response[0]) {
+            let curSentence = text.slice(i, i + response.length + 1)
+            // console.log("current sentence:", curSentence)
+            // console.log("edit distance:", wordDistance(curSentence, response))
+            if (wordDistance(curSentence, response) < smallestDistance) {
+                smallestDistance = wordDistance(curSentence, response)
+                closest = curSentence
+            }
+        }
+    }
+    return closest
+}
+
 function matchScrolling(){
     highlightArea.scrollTop = text.scrollTop
 }
 
 function reApplyHighlights(event){
-    try {
-        let data = null;
-    
-        if (sessionStorage.getItem("notes")) {
-            data = JSON.parse((sessionStorage.getItem("notes")))
-        }else{
-            console.log("no data found in sessionStorage")
-            return
-        }
-
-        if (data != null){
-            let highlightedText = applyHighlights(textArea.value, data)
-            highlightArea.innerHTML = highlightedText
-            //aftering applying highlights, we have to reset hover events for all the span tag elements
-            resetSpanHover()
-        }
-        
-        //match scrolling just in case new text causes scrolling
-        matchScrolling()
-        
-    } catch (err) {
-        console.log("An error occur when reapplying highlights:", err)
-    }
-
+    textAreaManager.update()
+    highlightsManager.onTextUpdate()
 }
 
 
 function applyHighlights(text, data){
     var num = 1
     for (key in data){
-        text = text.replace(`/\n$/g`, '\n\n').replace(key, `<span class="highlighted" id='a${num}'>$&</span>`)
+        if (text.includes(key)) {
+            text = text.replace(`/\n$/g`, '\n\n').replace(key, `<span class="highlighted" id='a${num}'>$&</span>`)
+        } else {
+            console.log("highlight not found...")
+            var splitText = text.split(" ")
+            var closest = findClosest(splitText, key)
+            closest = closest.join(" ")
+            console.log("closest: ", closest)
+            data[closest] = data[key]
+            delete data[key]
+            console.log("data:", data)
+            text = text.replace(`/\n$/g`, '\n\n').replace(closest, `<span class="highlighted" id='a${num}'>$&</span>`)
+        }
         num ++
     }
-    return text
+    return text+" " //magic space!
 }
 
 

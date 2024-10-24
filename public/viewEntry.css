@@ -42,17 +42,22 @@
 }
 
 .journal {
-  margin: 3% 0% 0% 10%;
+  margin: 1% 0% 0% 10%;
   max-width:60%;
   min-width:60%;
 }
 
 .header {
   padding: 2em;
+  display: flex;
+  /* flex-direction: row;
+  align-items: center;
+  justify-content: space-between; */
 }
 
 .title {
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -89,13 +94,14 @@
 #responses {
   max-width: 300px;
   min-width: 300px;
-  max-height: 700px;
-  min-height: 700px;
+  max-height: 600px;
+  min-height: 600px;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 1em;
+  scroll-behavior: smooth;
 }
 
 #responses::-webkit-scrollbar {
@@ -225,11 +231,8 @@
   justify-content: center;
   line-height: 1.25;
   margin: 0;
-  min-height: 5em;
-  min-width: 5em;
-  position: fixed;
-  bottom: 3em;
-  left: 5em;
+  min-height: 4em;
+  min-width: 4em;
   text-decoration: none;
   transition: all 250ms;
   user-select: none;

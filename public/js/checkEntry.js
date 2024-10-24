@@ -1,3 +1,14 @@
+async function sendEntry(id) {
+    await fetch(`/journal/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: document.getElementById("text").value})
+    })
+}
+
+
 async function check(id){
 
     //this function should initialize the responses and highlight upon "send"
